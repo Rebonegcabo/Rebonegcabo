@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Study Nº 01</title>
+<style>
+  @font-face { font-family: 'Unbounded'; font-weight: 800; src: url(fonts/Unbounded-ExtraBold.ttf); }
+  @font-face { font-family: 'Unbounded'; font-weight: 400; src: url(fonts/Unbounded-Regular.ttf); }
+  @font-face { font-family: 'JBMono'; font-weight: 500; src: url(fonts/JetBrainsMono-Medium.ttf); }
+  @font-face { font-family: 'Instrument'; font-style: italic; src: url(fonts/InstrumentSerif-Italic.ttf); }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  canvas {
+    position: absolute; inset: 0; margin: auto; display: block;
+    width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh;
+  }
+  #play {
+    position: absolute; inset: 0; display: grid; place-items: center; cursor: pointer;
+    color: #F2EEE4; font: 500 14px/1 JBMono, monospace; letter-spacing: 4px;
+  }
+  body.render #play, body.playing #play { display: none; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="play">▶ CLICK TO PLAY — SPACE PAUSE · ← → SEEK</div>
+<script src="reel.js"></script>
+</body>
+</html>
