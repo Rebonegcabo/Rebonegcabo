@@ -1,20 +1,59 @@
 # Trading Strategy Research Prompt (refined)
 
-Copy everything inside the `<prompt>` block. Before you send it, change the values in `<inputs>`. The defaults are set for US equities.
+Copy everything inside the `<prompt>` block. Before you send it, set `ACTIVE_MARKET` in `<inputs>` to `US`, `SA` or `BOTH`. Each market's settings are in `<market_presets>`, and you can edit any of them.
 
 ```xml
 <prompt>
 
 <inputs>
-  MARKET:            US equities (S&P 500 constituents + the 11 SPDR sector ETFs)
-  BENCHMARK:         SPY total return; the relevant sector ETF for sector strategies
-  DATA_START:        2005-01-01   (must include 2008, 2020 and 2022)
-  IN_SAMPLE:         2005-01-01 to 2017-12-31
-  OUT_OF_SAMPLE:     2018-01-01 to latest available close   (do not look at it until design is frozen)
-  CAPITAL:           $1,000,000
-  MAX_STRATEGIES:    10   (fewer is fine, and so is zero, if nothing passes)
+  ACTIVE_MARKET:     US   (US | SA | BOTH; if BOTH, run the full process separately for each
+                           market, then compare them and consider a combined allocation)
+  MAX_STRATEGIES:    10   (per market; fewer is fine, and so is zero, if nothing passes)
   HOLDING_HORIZON:   days to months (no intraday)
 </inputs>
+
+<market_presets>
+  <US>
+    UNIVERSE:        S&P 500 constituents (point-in-time) + the 11 SPDR sector ETFs
+    BENCHMARK:       SPY total return; the relevant sector ETF for sector strategies
+    CURRENCY:        USD
+    RISK_FREE:       3-month US T-bill
+    DATA_START:      2005-01-01   (must include 2008, 2020 and 2022)
+    IN_SAMPLE:       2005-01-01 to 2017-12-31
+    OUT_OF_SAMPLE:   2018-01-01 to latest available close
+    CAPITAL:         $1,000,000
+    COSTS:           ≥ 5 bps commission + 5 bps slippage per side for large caps; more for small caps
+    SHORTING:        stock borrow at ≥ 50 bps/yr for general collateral, more for hard-to-borrow names
+    LIQUIDITY:       ≤ 5% of 20-day average dollar volume per name
+  </US>
+
+  <SA>
+    UNIVERSE:        JSE Top 40 + next 60 by market cap (point-in-time; JSE All Share for
+                     breadth), plus the Resources 10, Industrials 25 and Financials 15 indices
+    BENCHMARK:       JSE Capped SWIX (J433) total return; also report against the Top 40 (J200 / STX40);
+                     the relevant sector index for sector strategies
+    CURRENCY:        ZAR (also report results in USD, because USD/ZAR moves drive many JSE names)
+    RISK_FREE:       SA 91-day T-bill (or ZARONIA / JIBAR, whichever is stated)
+    DATA_START:      2005-01-01   (must include 2008, Dec 2015 "Nenegate", 2020 and 2022–23 load-shedding)
+    IN_SAMPLE:       2005-01-01 to 2017-12-31
+    OUT_OF_SAMPLE:   2018-01-01 to latest available close
+    CAPITAL:         R20,000,000
+    COSTS:           ≥ 15 bps brokerage + VAT on fees, 0.25% Securities Transfer Tax on every purchase,
+                     plus JSE and STRATE levies and ≥ 10 bps slippage per side for Top 40 names;
+                     ≥ 30 bps slippage outside the Top 40
+    SHORTING:        only through single-stock futures or CFDs; assume ≥ 150 bps/yr financing and borrow.
+                     Otherwise run long-only
+    LIQUIDITY:       ≤ 5% of 20-day average value traded per name; exclude names under R5m of daily value traded
+    SA_SPECIFICS:    - Prices on many data feeds are in cents (ZAc), not rand. Check and convert.
+                     - Dual-listed and rand-hedge stocks (e.g. Naspers/Prosus, Richemont, BHP, Anglo American,
+                       BAT) follow offshore prices and USD/ZAR. Treat currency as a risk factor, not as alpha.
+                     - Resources dominate index moves, so check whether an "edge" is just
+                       commodity-price or USD/ZAR exposure.
+                     - Account for corporate actions: unbundlings, delistings and take-privates are common.
+                     - Consider SA macro drivers: SARB repo rate, inflation, electricity supply,
+                       fiscal and political risk, the sovereign credit rating and foreign portfolio flows.
+  </SA>
+</market_presets>
 
 <role>
 You are a skeptical quantitative research analyst. Your job is to find out whether an edge exists,
@@ -23,7 +62,8 @@ not to produce one. A well-supported "nothing here survives costs" is a valid an
 
 <objective>
 Research, implement, backtest and critically evaluate up to MAX_STRATEGIES fundamentally different
-trading strategies for MARKET. Deliver a ranked shortlist backed by code and reproducible results,
+trading strategies for the ACTIVE_MARKET, using its preset from <market_presets>.
+Deliver a ranked shortlist backed by code and reproducible results,
 together with an honest account of what failed.
 </objective>
 
@@ -50,16 +90,17 @@ market data (source, frequency, date range), fundamentals, code execution, web s
    2× cost stress, removal of the best 5 trades / best year.
 7. Out-of-sample: run the frozen designs once on OUT_OF_SAMPLE. Do not tune afterwards.
    If you do change anything, say so explicitly, because the result is then no longer out of sample.
-8. Selection and report, as specified in <output_format>.
+8. Selection and report, as specified in <output_format>. If ACTIVE_MARKET is BOTH, add a
+   US vs SA comparison: which edges exist in one market but not the other, the difference in costs,
+   and the correlation between the two shortlists.
 </process>
 
 <backtest_assumptions>
-- Costs: at least 5 bps commission + 5 bps slippage per side for large caps, and more for
-  small or illiquid names. State what you used.
-- Liquidity: trade at most 5% of 20-day average dollar volume per name.
-- Shorting: include borrow cost (≥ 50 bps/yr for general collateral) or run long-only.
+- Apply the COSTS, SHORTING and LIQUIDITY settings from the active preset. State exactly what you used.
 - Use split- and dividend-adjusted prices, and include delisted names where the data allows.
-- Cash earns the T-bill rate. Sharpe and Sortino are computed on excess returns.
+- Cash earns the preset's RISK_FREE rate. Sharpe and Sortino are computed on excess returns
+  over that rate, in the preset's CURRENCY.
+- Do not look at OUT_OF_SAMPLE data until the design is frozen.
 </backtest_assumptions>
 
 <metrics>
@@ -76,6 +117,7 @@ A strategy makes the shortlist only if all of the following hold:
 - It beats BENCHMARK on a risk-adjusted basis out of sample, or adds diversification
   (correlation < 0.5) at acceptable return.
 - Max drawdown is < 30% and it has at least 100 trades (or 30 rebalances for slow strategies).
+- For SA: the edge is not explained away by exposure to USD/ZAR or to the Resources index.
 - It stays profitable across the ±25% parameter range and at 2× costs.
 - It has a plausible, stated economic rationale.
 - It can be implemented at CAPITAL under the liquidity constraint.
@@ -123,10 +165,11 @@ Before finishing, answer each question briefly in the report:
 
 | Issue in the original | Fix |
 |---|---|
-| The market was only an example ("e.g. US equities… RELIANCE"). | An `<inputs>` block with explicit, editable values, defaulting to US equities. |
+| The market was only an example ("e.g. US equities… RELIANCE"). | An `<inputs>` switch between US and SA presets (or both at once), each with its own benchmark, currency, costs and dates. |
+| US-style costs don't fit the JSE. | The SA preset adds 0.25% Securities Transfer Tax (STT), VAT on fees, wider slippage, shorting through single-stock futures, prices quoted in cents, and USD/ZAR and Resources exposure checks. |
 | It told the model it *has* real-time data and a backtester, which invites made-up results when it doesn't. | `<environment_check>` makes it declare which tools it actually has, and a rule bans any number it didn't compute. |
 | `<risk_management>` appeared twice, and `<research_process>`, `<detailed_steps>` and `<tools_and_data>` overlapped. | These are merged into a single `<process>`. |
-| "Realistic costs" and "out-of-sample" were never defined. | Concrete costs, liquidity, borrow and date splits in `<backtest_assumptions>` and `<inputs>`. |
+| "Realistic costs" and "out-of-sample" were never defined. | Concrete costs, liquidity, borrow and date splits in `<market_presets>`. |
 | Nothing guarded against data snooping across many variants. | Pre-registration, a log of every variant, a deflated Sharpe, and a single out-of-sample run. |
 | "Sharpe > 1.0 preferred" was vague, and the prompt asked for 3–10 winners. | Measurable pass/fail criteria, with zero winners explicitly allowed. |
 | Survivorship and look-ahead bias were not mentioned. | Called out in the data check, the process, and the final check. |
