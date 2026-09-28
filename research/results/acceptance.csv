@@ -1,0 +1,13 @@
+strategy,cash,1 OOS SR>0.5 & >=half IS,2 beats BH OOS or corr<0.5,3 MaxDD since 2005 <30%,4 >=30 switches IS,5 robust (sens & 2x cost SR>0),6 DSR>0.95,PASS
+S1 Trend (SMA),cash_lo,True,False,True,True,True,True,False
+S1 Trend (SMA),cash_hi,True,False,True,True,True,True,False
+S2 TS momentum,cash_lo,True,False,True,True,True,True,False
+S2 TS momentum,cash_hi,True,False,True,True,True,True,False
+S3 CAPE valuation,cash_lo,True,False,False,True,True,True,False
+S3 CAPE valuation,cash_hi,True,False,False,True,True,True,False
+S4 Equity risk premium,cash_lo,True,True,False,False,True,True,False
+S4 Equity risk premium,cash_hi,True,True,False,False,True,True,False
+S5 Seasonal (Nov-Apr),cash_lo,True,False,True,True,True,True,False
+S5 Seasonal (Nov-Apr),cash_hi,False,False,True,True,True,True,False
+S6 Vol target,cash_lo,True,False,False,True,True,True,False
+S6 Vol target,cash_hi,True,False,False,True,True,True,False

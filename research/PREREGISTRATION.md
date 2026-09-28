@@ -89,4 +89,17 @@ lag-1 diagnostics. The deflated Sharpe ratio (Bailey & López de Prado, 2014) us
 
 ## Deviations
 
-(none yet)
+These were logged after the first full run, including its out-of-sample section, had been seen.
+They are **evaluation bug fixes**. No strategy rule, parameter, window or cost changed. The
+headline result (0 of 6 pass) is the same before and after the fixes.
+
+1. The in-sample windows started at the first data row (1871) instead of the pre-registered 1881-01. Fixed.
+2. The deflated Sharpe pooled trials across both cash definitions, which inflated the variance
+   of the trial Sharpes. It is now pooled within each cash definition (32 trials each).
+3. Criterion 2 counted an exact tie with buy-and-hold as a "beat". This came from float noise:
+   S3 held a constant 50% weight out of sample, so its Sharpe equals buy-and-hold's. The
+   comparison is now made at 2 decimal places.
+4. For S3/S4, the sub-period buy-and-hold Sharpe was measured over a longer window than the
+   strategy's. Both are now measured on the same months.
+5. Information ratio against buy-and-hold was added as an extra column. It is not a criterion.
+6. S3/S4 out-of-sample ends 2023-06, as pre-registered.
