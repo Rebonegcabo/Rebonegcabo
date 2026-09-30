@@ -1,11 +1,11 @@
 # Ubuntu Circle — animated, days 2–30
 
-One renderer for every card in the 30-day series. Each video is 15 s, 1080 × 1080, 60 fps, silent. Its last frame reproduces the original card (from `ubuntu-circle-30-days.zip`) to within 0.4% per pixel before video compression. Every word was also checked individually against its card.
+One renderer for every card in the 30-day series. Each video is 15 s, 1080 × 1080, 60 fps, silent. Its last frame reproduces the original card (days 2–7 differ only in the footer, where Rebone's name was added) (from `ubuntu-circle-30-days.zip`) to within 0.4% per pixel before video compression. Every word was also checked individually against its card.
 
 Built from [`MOTION.md`](../../MOTION.md), plus Rebone's answers on motion, which are not in MOTION.md yet:
 
 - **Look B (days 8–30)**, answered 27 Sep: the card's frame builds first. The quote arrives word by word with a soft fade and a small rise. The gold closing phrase comes after a beat, then the divider. The rings breathe outward throughout. Long quotes speed up the word pace (never slower than one word every 0.32 s), so every quote has landed by about 8 s.
-- **Look A (days 2–7, #StopFemicide)**, answered 30 Sep: everything is still from the first frame, including the helpline. Only the quote moves: it fades in whole, from 1.0 to 2.8 s.
+- **Look A (days 2–7, #StopFemicide)**, answered 30 Sep: everything is still from the first frame, including the helpline. Only the quote moves: it fades in whole, from 1.0 to 2.8 s. The helpline sits bottom left and "Dr Rebone Gcabo" bottom right, in teal (added 30 Sep, and recorded in MOTION.md).
 
 ## Send calendar
 

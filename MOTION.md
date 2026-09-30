@@ -48,7 +48,8 @@ for other sizes (a size ÷ 1080 = its share of the frame width).
 | Quote, Look A | DejaVu Serif Bold | 58 px | Cream | Upright. Centred. Line pitch 82 px |
 | Quote, Look B | DejaVu Serif Bold Italic | 58 px | Cream, closing phrase Gold | Centred. Line pitch 82 px |
 | Header label | Liberation Sans Bold (Arial-metric) | 17 px, all caps | Teal | `UBUNTU CIRCLE · DAY 01 · #StopFemicide` (A) or `UBUNTU CIRCLE · DAY 17` (B) |
-| Footer, Look A | Liberation Sans Bold | 20 px | Cream | `GBV Command Centre  0800 428 428  ·  24 hours`, centred |
+| Footer, Look A | Liberation Sans Bold | 20 px | Cream | `GBV Command Centre  0800 428 428  ·  24 hours`, bottom left (ink starts at x 22). Centred on the original cards; moved left on 30 Sep to make room for the name |
+| Name, Look A | Liberation Sans Bold | 17 px | Teal | `Dr Rebone Gcabo`, bottom right (ink ends at x 1050), mirroring Look B. Added 30 Sep |
 | Footer, Look B | Liberation Sans, Regular left / Bold right | ~17 px | Teal left / Gold right | `Your Voice is Your Design` left, `Dr Rebone Gcabo` right |
 
 The fonts were identified by matching letter shapes and measured widths

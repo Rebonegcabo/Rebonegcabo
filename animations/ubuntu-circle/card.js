@@ -11,7 +11,9 @@
  *               after a beat, then the divider. The rings breathe outward
  *               throughout and land on the card's positions on the last frame.
  *   Look A      (30 Sep) Everything is still from frame 1, including the
- *               helpline. Only the quote moves: it fades in whole.
+ *               helpline. Only the quote moves: it fades in whole. The
+ *               helpline sits bottom left and "Dr Rebone Gcabo" bottom right,
+ *               in teal, mirroring the Look B footer.
  *
  * render(t) is a pure function of time, so any frame can be rendered exactly.
  */
@@ -59,7 +61,8 @@ const baseline = (i, n) => Math.round(QUOTE_MID + (i - (n - 1) / 2) * LINE);
 const DD = `DAY ${String(DAY).padStart(2, '0')}`;
 const HEADER = B ? [['UBUNTU CIRCLE', 425], ['·', 579], [DD, 599]]
                  : [['UBUNTU CIRCLE', 348], ['·', 502], [DD, 522], ['·', 593], ['#StopFemicide', 612]];
-const HELPLINE = [['GBV Command Centre', 309], ['0800 428 428', 536], ['·', 671], ['24 hours', 687]];
+// Look A footer (Rebone, 30 Sep): helpline bottom left, her name bottom right in teal.
+const HELPLINE = [['GBV Command Centre', 22], ['0800 428 428', 249], ['·', 384], ['24 hours', 400]];
 
 // ─── Timeline (seconds) ────────────────────────────────────────────────────
 const T = {
@@ -154,6 +157,7 @@ function drawFrame(t) {
       // The helpline: on screen and readable the whole time (MOTION.md §6).
       ctx.font = F.helpline; ctx.fillStyle = C.cream;
       for (const piece of HELPLINE) inkAt(piece, 1055);
+      ctx.font = F.footBold; ctx.fillStyle = C.teal; ctx.fillText('Dr Rebone Gcabo', 1050 - ink('Dr Rebone Gcabo').r, 1054);
     }
   }, 8);
 
