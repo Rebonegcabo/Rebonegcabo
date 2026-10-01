@@ -109,6 +109,7 @@ The references are still cards, so none of this can be read from them.
 - Hairlines are 1 px, the divider 2 px. No thick rules.
 - No photos, illustrations, icons or logos appear on any card.
 - Whether a photo or logo may ever be added: **ASK ME**
+- Sound: nothing audible. Every video carries a silent stereo audio track (AAC, 48 kHz) so Instagram, TikTok and WhatsApp accept the file. Answered 1 Oct; any audible sound (music, voice, effects): **ASK ME**
 
 ## 6. Never
 
