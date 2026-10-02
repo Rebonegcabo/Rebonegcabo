@@ -47,15 +47,16 @@ await mkdir(join(ROOT, stills ? 'out/stills' : 'out'), { recursive: true });
 for (const day of days) {
   await page.goto(`http://127.0.0.1:${server.address().port}/index.html?render&day=${day}`);
   const FRAMES = await page.evaluate(async () => { await window.CARD.ready; return window.CARD.FRAMES; });
+  const look = await page.evaluate(d => window.DAYS[d].look, day);
   if (stills) {
     for (const f of stills) await writeFile(join(ROOT, `out/stills/day-${pad(day)}-frame-${pad(f, 4)}.png`), await grab(f));
     continue;
   }
   const outFile = join(ROOT, `out/ubuntu-circle-day-${pad(day)}.mp4`);
   const ff = spawn(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', '60', '-c:v', 'png', '-i', '-',
-    // A silent stereo track (Rebone, 1 Oct) so social platforms accept the file.
-    '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo', '-map', '0:v', '-map', '1:a',
-    '-c:a', 'aac', '-b:a', '128k', '-shortest',
+    // Sound (Rebone, 2 Oct): bed A (sombre) for Look A, bed B (warm) for Look B. See audio/beds.py.
+    '-i', join(ROOT, `audio/bed-${look.toLowerCase()}.wav`), '-map', '0:v', '-map', '1:a',
+    '-c:a', 'aac', '-b:a', '192k', '-shortest',
     // Convert RGB→YUV with the BT.709 matrix the file is tagged with, or players shift the greens.
     '-vf', 'scale=out_color_matrix=bt709:out_range=tv:flags=accurate_rnd+full_chroma_int,format=yuv420p',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-tune', 'stillimage',

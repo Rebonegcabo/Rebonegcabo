@@ -1,6 +1,6 @@
 # Ubuntu Circle — animated, days 2–30
 
-One renderer for every card in the 30-day series. Each video is 15 s, 1080 × 1080, 60 fps, with a silent stereo audio track (nothing audible, but social platforms accept the file). Its last frame reproduces the original card (days 2–7 differ only in the footer, where Rebone's name was added) (from `ubuntu-circle-30-days.zip`) to within 0.4% per pixel before video compression. Every word was also checked individually against its card.
+One renderer for every card in the 30-day series. Each video is 15 s, 1080 × 1080, 60 fps, with sound: a soft instrumental bed composed in code (`audio/beds.py`). Bed A, sombre and in D minor, plays under days 2–7. Bed B, warm and in D major, plays under days 8–30. No voice. Its last frame reproduces the original card (days 2–7 differ only in the footer, where Rebone's name was added) (from `ubuntu-circle-30-days.zip`) to within 0.4% per pixel before video compression. Every word was also checked individually against its card.
 
 Built from [`MOTION.md`](../../MOTION.md), plus Rebone's answers on motion, which are not in MOTION.md yet:
 
