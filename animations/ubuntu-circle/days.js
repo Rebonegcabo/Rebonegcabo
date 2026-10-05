@@ -9,7 +9,7 @@ window.DAYS = {
   3: { look: 'A', gold: null, lines: ["If every solution requires", "the woman to change, we", "are not looking hard", "enough at the room."], nudge: {"3": {"0": -1, "1": -1}} },
   4: { look: 'A', gold: null, lines: ["Umuntu ngumuntu", "ngabantu. If one woman is", "not safe, none of us is", "whole."], nudge: {"1": {"3": -1}} },
   5: { look: 'A', gold: null, lines: ["Men: silence is also a", "position. Choose again."] },
-  6: { look: 'A', gold: null, lines: ["Nine women in", "Ekurhuleni. Nine families.", "We will not grow", "accustomed to this."], nudge: {"1": {"2": 1}, "3": {"2": 1, "1": 1}} },
+  6: { look: 'A', gold: null, lines: ["Eleven women in", "Ekurhuleni. Eleven families.", "We will not grow", "accustomed to this."], nudge: {"3": {"2": 1, "1": 1}} },  // updated 5 Oct: the count is now eleven (was "Nine" on the original card)
   7: { look: 'A', gold: null, lines: ["A country is measured by", "whether its women can", "walk home."], nudge: {"0": {"2": -1}} },
   8: { look: 'B', gold: [3, 245], lines: ["The most beautiful vessels", "are not the newest ones.", "They are the ones that", "know how to pour."], nudge: {"0": {"1": -1}, "1": {"3": 1}, "2": {"3": 1}} },
   9: { look: 'B', gold: [3, 459], lines: ["Your vessel was never", "meant to stay full. It was", "always preparing you to", "pour."] },
